@@ -27,6 +27,7 @@ For this implementation, we have three standard servos, a limit switch sensor an
 #### Photoresistor
 The resistance of the photoresistor will change according to light intensity. We design a voltage divider circuit to measure the voltage across the photoresistor in order to determine the light intensity around the photoresistor.
 <img width="489" alt="screen shot 2017-02-15 at 18 54 37" src="https://cloud.githubusercontent.com/assets/9398437/23008753/b172019c-f3c6-11e6-8869-859cac9b3a71.png">
+
 We use AnalogRead() function to read the voltage across the photoresistor, typical value under indoor lighting is above 800. The reading will decrease to around 700 after blocking the light using a servo arm.
 The code for moving servo based on threshold.
 ```
@@ -42,6 +43,10 @@ void loop()
 }
 ```
 ### Installation
+#### Hardware
+* Servos can use any digital pins (D1-D9) on the motor sheild.
+* We can only use A0 for analogRead() since it's the only analog pin on the motor shield 
+
 #### Server
 Include the ESP8266 WiFi library and Arduino Servo library
 ```
