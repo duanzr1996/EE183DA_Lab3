@@ -197,8 +197,8 @@ After you include the ESP8266FS "tool" folder into to the Arduino tools, you wil
 Connect to the WiFi of the username you set up and input the password. Then open any browser on your computer with the IP address displayed in your serial monitor and you will be able to see the key button appearing in your browser window. The default EPS8266 IP address is http://192.168.4.1.
 
 
-### TODO
- - 3D printing wrist and hand for the Robot Orchestra.  
+### Future Works
+ - 3D printing wrist and hand for the Robot Orchestra.  
 
 ### Reference  
  * [ESP8266 motor shield diagram](http://amazingrobots.net/resources/motor_shield_diagram/)  
