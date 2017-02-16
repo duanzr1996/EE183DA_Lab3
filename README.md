@@ -20,9 +20,13 @@ To use this API, the following hardware requirements have to be met:
 * [Micro servo](https://www.adafruit.com/products/169?gclid=Cj0KEQiA_eXEBRDP8fnIlJDXxsIBEiQAAGfyocOxexE9orkD1clvZEldCO0z9T-eg9v4C2jLbUiJisgaAjMX8P8HAQ)
 * Mini USB cable
 
+
 ### Design
 #### Overview
 For this implementation, we have three standard servos, a limit switch sensor and a photoresistor. First servo is triggered by https web server, and the servo arm close the limit switch sensor to trigger the second servo. The third servo is triggered by the arm of second servo blocking the photoresistor.
+
+<img width="472" alt="screen shot 2017-02-15 at 17 07 40" src="https://cloud.githubusercontent.com/assets/9398437/23008939/dd76982e-f3c7-11e6-9b15-16e51c203714.png">
+
 
 #### Photoresistor
 The resistance of the photoresistor will change according to light intensity. We design a voltage divider circuit to measure the voltage across the photoresistor in order to determine the light intensity around the photoresistor.
@@ -43,10 +47,19 @@ void loop()
 }
 ```
 ### Installation
+#### Bill of Materials
+* ESP 8266 MCU * 3
+* Standard Servo * 3
+* 20k Ohms Photoresistor
+* Limit switch sensor
+* Breadboard
+* micro-USB Cable
+* Jumper Wires
+* 10k Ohms Resistor
 #### Hardware
 * Servos can use any digital pins (D1-D9) on the motor sheild.
 * We can only use A0 for analogRead() since it's the only analog pin on the motor shield 
-
+* 10k Ohms resistor is used for voltage divider circuit
 #### Server
 Include the ESP8266 WiFi library and Arduino Servo library
 ```
