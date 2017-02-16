@@ -48,7 +48,7 @@ void loop()
 ```
 #### Limit Switch
 We use the limit switch model 10t85. The switch normally is open, and when it is pressed it connects pin C to the NC Terminal (Normally Closed). In this case, we connect NC to 3.3V, NO (Normally Open Terminal) to ground, and COM pin to an GPIO pin on the MCU. After that, we can use either digitalRead() or analogRead() function to read the voltage and process the signal.
-
+![image](https://cloud.githubusercontent.com/assets/18479261/23009376/847bff9a-f3ca-11e6-8f3b-31adde8fadb5.png)
 ![image](https://cloud.githubusercontent.com/assets/18479261/23009283/ebc5d6d6-f3c9-11e6-9b02-d7d4bdff34da.png)
 
 ### Installation
