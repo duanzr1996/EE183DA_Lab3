@@ -11,7 +11,7 @@ Robot Orchestra is an Arduino Internet of things (IoT) API for web-controlled mu
   - **License**  
 
 ### Demo
-[Demo](https://vimeo.com/202894019)  
+[Demo](https://www.youtube.com/watch?v=IjqijyLrOXg&feature=youtu.be)  
 
 ### Hardware Requirements  
 To use this API, the following hardware requirements have to be met:
@@ -20,8 +20,27 @@ To use this API, the following hardware requirements have to be met:
 * [Micro servo](https://www.adafruit.com/products/169?gclid=Cj0KEQiA_eXEBRDP8fnIlJDXxsIBEiQAAGfyocOxexE9orkD1clvZEldCO0z9T-eg9v4C2jLbUiJisgaAjMX8P8HAQ)
 * Mini USB cable
 
-### Design  
+### Design
+#### Overview
+For this implementation, we have three standard servos, a limit switch sensor and a photoresistor. First servo is triggered by https web server, and the servo arm close the limit switch sensor to trigger the second servo. The third servo is triggered by the arm of second servo blocking the photoresistor.
 
+#### Photoresistor
+The resistance of the photoresistor will change according to light intensity. We design a voltage divider circuit to measure the voltage across the photoresistor in order to determine the light intensity around the photoresistor.
+<img width="489" alt="screen shot 2017-02-15 at 18 54 37" src="https://cloud.githubusercontent.com/assets/9398437/23008753/b172019c-f3c6-11e6-8869-859cac9b3a71.png">
+We use AnalogRead() function to read the voltage across the photoresistor, typical value under indoor lighting is above 800. The reading will decrease to around 700 after blocking the light using a servo arm.
+The code for moving servo based on threshold.
+```
+void loop() 
+{
+   double reading = analogRead(A0);
+   Serial.println(reading);
+   if( reading < thres)
+   {
+     move(110,400);
+     move(70,400);
+   }
+}
+```
 ### Installation
 #### Server
 Include the ESP8266 WiFi library and Arduino Servo library
