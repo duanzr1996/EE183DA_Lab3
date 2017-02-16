@@ -46,6 +46,11 @@ void loop()
    }
 }
 ```
+#### Limit Switch
+We use the limit switch model 10t85. The switch normally is turned off, but when it is pressed it turns on and connect pin C to the NC Terminal (Normally Closed). In this case, we connect NC to 3.3V, NO (Normally Open Terminal) to ground, and COM pin to an GPIO pin on the MCU. After that, we can use either digitalRead() or analogRead() function to read the voltage and process the signal.
+
+![image](https://cloud.githubusercontent.com/assets/18479261/23009283/ebc5d6d6-f3c9-11e6-9b02-d7d4bdff34da.png)
+
 ### Installation
 #### Bill of Materials
 * ESP 8266 MCU * 3
