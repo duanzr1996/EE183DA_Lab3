@@ -56,10 +56,12 @@ void loop()
 * micro-USB Cable
 * Jumper Wires
 * 10k Ohms Resistor
+
 #### Hardware
 * Servos can use any digital pins (D1-D9) on the motor sheild.
 * We can only use A0 for analogRead() since it's the only analog pin on the motor shield 
 * 10k Ohms resistor is used for voltage divider circuit
+
 #### Server
 Include the ESP8266 WiFi library and Arduino Servo library
 ```
