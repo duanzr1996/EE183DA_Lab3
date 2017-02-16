@@ -166,7 +166,7 @@ Connect to the WiFi of the username you set up and input the password. Then open
  * [ESP8266 board pin mappings](http://amazingrobots.net/resources/nodemcu_pinout/)  
  * [ESP8266-12E quick guide](http://ucla.mehtank.com/teaching/2016-17--02--ee183da/esp8266-12e-quick.pdf)  
  * [ESP8266 programming tutorial](http://www.instructables.com/id/Programming-the-ESP8266-12E-using-Arduino-software/)  
-  * [ESP8266 SPIFFS file system](https://github.com/esp8266/Arduino/blob/master/doc/filesystem.md)  
+ * [ESP8266 SPIFFS file system](https://github.com/esp8266/Arduino/blob/master/doc/filesystem.md)  
 
 ### License  
 **MIT**
