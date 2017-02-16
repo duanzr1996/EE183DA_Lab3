@@ -11,7 +11,7 @@ Robot Orchestra is an Arduino Internet of things (IoT) API for web-controlled mu
   - **License**  
 
 ### Demo
-[Demo](https://vimeo.com/202894019)  
+[Demo](https://www.youtube.com/watch?v=IjqijyLrOXg&feature=youtu.be)  
 
 ### Hardware Requirements  
 To use this API, the following hardware requirements have to be met:
@@ -20,9 +20,53 @@ To use this API, the following hardware requirements have to be met:
 * [Micro servo](https://www.adafruit.com/products/169?gclid=Cj0KEQiA_eXEBRDP8fnIlJDXxsIBEiQAAGfyocOxexE9orkD1clvZEldCO0z9T-eg9v4C2jLbUiJisgaAjMX8P8HAQ)
 * Mini USB cable
 
-### Design  
+
+### Design
+#### Overview
+For this implementation, we have three standard servos, a limit switch sensor and a photoresistor. First servo is triggered by https web server, and the servo arm close the limit switch sensor to trigger the second servo. The third servo is triggered by the arm of second servo blocking the photoresistor.
+
+<img width="472" alt="screen shot 2017-02-15 at 17 07 40" src="https://cloud.githubusercontent.com/assets/9398437/23008939/dd76982e-f3c7-11e6-9b15-16e51c203714.png">
+
+
+#### Photoresistor
+The resistance of the photoresistor will change according to light intensity. We design a voltage divider circuit to measure the voltage across the photoresistor in order to determine the light intensity around the photoresistor.
+<img width="489" alt="screen shot 2017-02-15 at 18 54 37" src="https://cloud.githubusercontent.com/assets/9398437/23008753/b172019c-f3c6-11e6-8869-859cac9b3a71.png">
+
+We use AnalogRead() function to read the voltage across the photoresistor, typical value under indoor lighting is above 800. The reading will decrease to around 700 after blocking the light using a servo arm.
+The code for moving servo based on threshold.
+```
+void loop() 
+{
+   double reading = analogRead(A0);
+   Serial.println(reading);
+   if( reading < thres)
+   {
+     move(110,400);
+     move(70,400);
+   }
+}
+```
+#### Limit Switch
+We use the limit switch model 10t85. There are three pins in the switch: C, NC(Normally Closed) and NO(Normally Open). When the switch is open, pin C is connected to NO, and when the switch is closed, pin C is connected to NC. The switch is open in default state, so we connect NC to 3.3V, NO to GND, and C to an GPIO pin of the microcontroller. Therefore, when the servo presses down and closes the switch, pin C will have high voltage. We can use either digitalRead() or analogRead() function to read the voltage and process the signal.
+
+![image](https://cloud.githubusercontent.com/assets/18479261/23009283/ebc5d6d6-f3c9-11e6-9b02-d7d4bdff34da.png)
 
 ### Installation
+#### Bill of Materials
+* ESP 8266 MCU * 3
+* Standard Servo * 3
+* 20k Ohms Photoresistor
+* Limit switch sensor
+* Breadboard
+* micro-USB Cable
+* Jumper Wires
+* 10k Ohms Resistor
+
+#### Hardware
+* Servos can use any digital pins (D1-D9) on the motor sheild.
+* We can only use A0 for analogRead() since it's the only analog pin on the motor shield 
+* 10k Ohms resistor is used for voltage divider circuit
+
 #### Server
 Include the ESP8266 WiFi library and Arduino Servo library
 ```
@@ -158,8 +202,8 @@ After you include the ESP8266FS "tool" folder into to the Arduino tools, you wil
 Connect to the WiFi of the username you set up and input the password. Then open any browser on your computer with the IP address displayed in your serial monitor and you will be able to see the key button appearing in your browser window. The default EPS8266 IP address is http://192.168.4.1.
 
 
-### TODO
- - 3D printing wrist and hand for the Robot Orchestra.  
+### Future Works
+ - 3D printing wrist and hand for the Robot Orchestra.  
 
 ### Reference  
  * [ESP8266 motor shield diagram](http://amazingrobots.net/resources/motor_shield_diagram/)  
