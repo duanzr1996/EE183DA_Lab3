@@ -1,11 +1,11 @@
-# Robot Pianista
+# Robot Orchestra
 
-Robot Pianista is an Arduino Internet of things (IoT) API for web-controlled piano playing, using servos.  
+Robot Orchestra is an Arduino Internet of things (IoT) API for web-controlled music playing, using servos. Multiple servos can collaborate with each other using sensors and each servo's behavior depends on the previous one's robotic state.
 
   - **Demo**  
   - **Hardware Requirements**  
   - **Design**  
-  - **Implementation**  
+  - **Installation**  
   - **TODO**  
   - **Reference**  
   - **License**  
@@ -21,9 +21,9 @@ To use this API, the following hardware requirements have to be met:
 * Mini USB cable
 
 ### Design  
-This IoT API was designed as a preliminary step to construct a web-controlled orchestra with Arduino and servos. The ESP8266 micro-controller was used as a server for users to interact with the servos wirelessly through WiFi and their local browsers.
 
-### Implementation
+### Installation
+#### Server
 Include the ESP8266 WiFi library and Arduino Servo library
 ```
 #include <ESP8266WiFi.h>
@@ -99,17 +99,74 @@ delay(1);
 Serial.println("Client disonnected"); //Looking under the hood
 ```
 
+#### File Upload
+In order to make the API more scalable, we decided to utilize the SPIFFS file system on the ESP8266 board. The board itself has 4MB flash memory, which is beyond sufficient for the purpose of simple web markup files. We referred to the official ESP8266 SPIFFS library to accomplish the files upload.  
+
+First, download the SPIFFS file upload tools from this Github repository [link](https://github.com/esp8266/arduino-esp8266fs-plugin/releases/download/0.2.0/ESP8266FS-0.2.0.zip). Make a “tools” folder under your Arduino master directory. Place the downloaded “ESP8266FS” folder into this newly created “tools” folder.  
+
+Then place the data files you wish to upload into a folder called “data” inside your Arduino sketch folder. In this repository, we already have the "data" folder under current directory.  
+
+To set up the file I/O, include the following code inside the server.ino Arduino code
+
+Beginning the server and check if the upload file exists  
+```
+bool file_start = SPIFFS.begin();
+ if (file_start) {
+   Serial.println("beginning SPIFFS file system");
+   bool exist = SPIFFS.exists("/index.html");
+
+   if (exist) {
+     Serial.println("upload file detected!");
+```
+
+Beginning the server and check if the upload file exists
+```
+bool file_start = SPIFFS.begin();
+if (file_start) {
+  Serial.println("beginning SPIFFS file system");
+  bool exist = SPIFFS.exists("/index.html");
+```
+
+If file exists, start opening the file and store data into a single string  
+```
+if (exist) {
+  Serial.println("upload file detected!");
+
+  File f = SPIFFS.open("/index.html", "r");
+  if (!f) {
+    Serial.println("file upload FAILED");
+  }
+  else {
+    int s = f.size();
+    Serial.printf("Size=%d\r\n", s);
+
+
+// USE THIS DATA VARIABLE
+
+    data = f.readString();
+    Serial.println(data);
+
+    f.close();
+  }
+}
+else {
+  Serial.println("cannot find upload file");
+}
+```
+After you include the ESP8266FS "tool" folder into to the Arduino tools, you will be able to see the option of "ESP8266 Sketch Data Upload" under the Arduino dropdown menu. Keep the serial monitor closed first and then click on the "ESP8266 Sketch Data Upload". The file uploading process may take a long time, so please be patient. After the uploading process completes, open the serial monitor and start the regular Arduino sketch upload. After you've done all of this, you should be able to see the serial console output of Arduino and ESP8266 WiFi on your computer.
+
+Connect to the WiFi of the username you set up and input the password. Then open any browser on your computer with the IP address displayed in your serial monitor and you will be able to see the key button appearing in your browser window. The default EPS8266 IP address is http://192.168.4.1.
+
+
 ### TODO
- - Implement Arduino SD library to read html, css and javascript files into the board.  
- - 3D printing wrist and hand for the Robot Pianista.  
- - Multiple servos to simulate human hand.    
+ - 3D printing wrist and hand for the Robot Orchestra.  
 
 ### Reference  
- * [Online virtual piano](http://piano-player.info)  
  * [ESP8266 motor shield diagram](http://amazingrobots.net/resources/motor_shield_diagram/)  
  * [ESP8266 board pin mappings](http://amazingrobots.net/resources/nodemcu_pinout/)  
  * [ESP8266-12E quick guide](http://ucla.mehtank.com/teaching/2016-17--02--ee183da/esp8266-12e-quick.pdf)  
  * [ESP8266 programming tutorial](http://www.instructables.com/id/Programming-the-ESP8266-12E-using-Arduino-software/)  
+  * [ESP8266 SPIFFS file system](https://github.com/esp8266/Arduino/blob/master/doc/filesystem.md)  
 
 ### License  
 **MIT**
