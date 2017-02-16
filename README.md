@@ -47,7 +47,7 @@ void loop()
 }
 ```
 #### Limit Switch
-We use the limit switch model 10t85. There are three pins in the switch: C, NC(Normally Closed) and NO(Normally Open). When the switch is open, pin C is connected to NO, and when the switch is closed, pin C is connected to NC. The switch is opened in the start, so we connect NC to 3.3V, NO to GND, and C to an GPIO pin of the microcontroller. Therefore, when the servo presses down and closes the switch, pin C will have high voltage. We can use either digitalRead() or analogRead() function to read the voltage and process the signal.
+We use the limit switch model 10t85. There are three pins in the switch: C, NC(Normally Closed) and NO(Normally Open). When the switch is open, pin C is connected to NO, and when the switch is closed, pin C is connected to NC. The switch is open in default state, so we connect NC to 3.3V, NO to GND, and C to an GPIO pin of the microcontroller. Therefore, when the servo presses down and closes the switch, pin C will have high voltage. We can use either digitalRead() or analogRead() function to read the voltage and process the signal.
 
 ![image](https://cloud.githubusercontent.com/assets/18479261/23009283/ebc5d6d6-f3c9-11e6-9b02-d7d4bdff34da.png)
 
